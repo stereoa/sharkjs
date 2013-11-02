@@ -24,12 +24,12 @@ var bg;
 
 //setup game entities
 function create() {
-    //protagonist
 
     game.stage.backgroundColor = '#000000';
 
     bg = game.add.tileSprite(0, 0, 800, 600, 'background');
 
+    //creates shark
     shark = game.add.sprite(100, 500, 'shark');
     shark.animations.add('swim');
     shark.animations.play('swim', 8, true);
@@ -50,7 +50,7 @@ function create() {
     //add crew member to water
     for(var i = 0; i < 1; i++) {
         var person = crewGroup.create(boat.x,boat.y, "person");
-        person.acceleration.y = 10;
+        person.velocity.y = 25;
         person.body.collideWorldBounds = true;
     }
 } 
@@ -61,12 +61,12 @@ function update() {
     handleNPCs();
     //check for collision with hairball
     game.physics.collide(shark, crewGroup, sharkHitsPerson, null, this);
-    crewGroup.forEach(personAI);
+    //crewGroup.forEach(personAI);
     
     
 } //end update function
 
-function personAI(person){
+/*function personAI(person){
     if (shark.x > person.x) {
         person.velocity.x--;
     }
@@ -79,7 +79,7 @@ function personAI(person){
     else if (shark.y < person.y){
         person.velocity.y++;
     }
-}
+}*/
 function sharkHitsPerson(shark, person) {
     person.kill();   
     //add one to score
@@ -87,7 +87,7 @@ function sharkHitsPerson(shark, person) {
     score ++;
     txtScore.text = score.toString();
    var person = crewGroup.create(boat.x,boat.y, "person");
-    person.acceleration.y = 10;        
+    person.velocity.y = 25;        
     person.body.collideWorldBounds = true;
 }
 
