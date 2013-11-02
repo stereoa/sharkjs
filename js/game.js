@@ -5,7 +5,7 @@ var game = new Phaser.Game(
                         preload: preload, 
                         create: create, 
                         update: update 
-                    }
+                    } 
             );
 
 //game variables
@@ -60,11 +60,6 @@ function create() {
 //game logic, ~30 fps
 function update() {
     
-    //add one to score
-    /*var score = txtScore.text;
-    score ++;
-    txtScore.text = score.toString();*/
-    
     if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT))
     {
         shark.x -= 4; //move left
@@ -95,7 +90,7 @@ function update() {
     //controls the boat movements
     if (boat.scale.x == -1){        
         boat.x += 1;
-    }if(boat.x >= 764){
+    }if(boat.x >= 764){ 
         boat.scale.x = 1; 
         boat.x -= 1; 
     }if(boat.scale.x == 1){
@@ -109,4 +104,9 @@ function update() {
 
 function collisionHandler(protagonist, hairball) {
     hairball.kill();   
+    //add one to score
+    var score = txtScore.text;
+    score ++;
+    txtScore.text = score.toString();
+    
 }
