@@ -30,12 +30,7 @@ function create() {
 
     bg = game.add.tileSprite(0, 0, 800, 600, 'background');
 
-    shark = game.add.sprite(100, 500, 'shark');
-    shark.animations.add('swim');
-    shark.animations.play('swim', 8, true);
-    shark.anchor.setTo(.5, 0); //center flip area
-    shark.body.collideWorldBounds = true;
-    shark.body.immovable = true;
+    sharkAdd();
 
     boat = game.add.sprite(188, 26, 'boat');
     boat.anchor.setTo(.5,0);
@@ -47,7 +42,7 @@ function create() {
     txtScore = game.add.text(770, 0, "0", style);
     crewGroup = game.add.group();
     var person;
-    crewSpawnPerson();
+    crewSpawnPerson(1);
 } 
 //game logic, ~30 fps
 function update() {
@@ -56,6 +51,7 @@ function update() {
     handleNPCs();
     //check for collision with hairball
     game.physics.collide(shark, crewGroup, sharkHitsPerson, null, this);
+    game.physics.collide(shark, boat, sharkHitsBoat, null, this);
     
 }
 
@@ -66,28 +62,12 @@ function sharkHitsPerson(shark, person) {
     score ++;
     txtScore.text = score.toString();
 }
-
-function handleInput() {
-    if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT))
-    {
-        shark.velocity.x -= 4; //move left
-        shark.scale.x = -1; //face left
-    }
-    if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT))
-    {
-        shark.velocity.x += 4; //move right
-        shark.scale.x = 1; //face right
-    }
-    if (game.input.keyboard.isDown(Phaser.Keyboard.UP))
-    {
-        shark.velocity.y -= 4; //move up
-    }
-    if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN))
-    {
-        shark.velocity.y += 4; //move down      
-    }
-    if (shark.y<waterLine) shark.velocity.y+=10;
+function sharkHitsBoat(shark, boat) {
+    shark.y-=50;
+    shark.velocity.y= -10;   
+    crewSpawnPerson(randomNum(5,20));
 }
+
 function handleNPCs(){
     //controls the boat movements
     if (boat.scale.x == -1){        

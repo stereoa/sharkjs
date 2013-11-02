@@ -1,5 +1,5 @@
 var maxVelocity = 50;
-var personSpeed = 5;
+var personSpeed = 3;
 function crewAI(person){
     //flee down
     if (shark.y < person.y){
@@ -17,13 +17,13 @@ function crewAI(person){
         person.velocity.x+=personSpeed;
         person.angle = 90;
     }
-   
+
     // up
     else if (shark.y > person.y){
         person.velocity.y-=personSpeed;
         person.angle = 0;
     }
-   
+
 }
 function crewPhysics(person)
 {
@@ -40,16 +40,19 @@ function crewPhysics(person)
     if (person.y<waterLine) person.velocity.y+=100;
     
 }
-function crewSpawnPerson()
+function crewSpawnPerson(amount)
 {
-    var person; 
-    
-    if (randomNum(1,2)==1) person = crewGroup.create(boat.x,boat.y, "person01");
-    else person = crewGroup.create(boat.x,boat.y, "person02");       
-    person.anchor.setTo(.5, .5); //center flip area
-    
-    person.velocity.x = randomNum(-50,50);
-    person.velocity.y = randomNum(-50,50);
-    person.x += randomNum(-15,15);
-    person.body.collideWorldBounds = true;
+    for (var i = 0; i < amount; i++)
+    {
+        var person; 
+
+        if (randomNum(1,2)==1) person = crewGroup.create(boat.x,boat.y, "person01");
+        else person = crewGroup.create(boat.x,boat.y, "person02");       
+        person.anchor.setTo(.5, .5); //center flip area
+        
+        person.velocity.x = randomNum(-50,50);
+        person.velocity.y = randomNum(-50,50);
+        person.x += randomNum(-15,15);
+        person.body.collideWorldBounds = true;
+    }
 }
