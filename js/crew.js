@@ -38,6 +38,12 @@ function crewPhysics(person)
         else if (person.velocity.y * -1 > maxVelocity) person.velocity.y = maxVelocity * -1;
     }
     if (person.y<waterLine) person.velocity.y+=100;
+    if (boat.y>26) 
+        {
+            if (boat.y>100) boat.y +=7;
+            else boat.y -=3;
+        }
+    else if (boat.y<26) boat.y +=2;
     
 }
 function crewSpawnPerson(amount)

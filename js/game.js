@@ -63,9 +63,9 @@ function sharkHitsPerson(shark, person) {
     txtScore.text = score.toString();
 }
 function sharkHitsBoat(shark, boat) {
-    shark.y-=50;
-    shark.velocity.y= -10;   
-    crewSpawnPerson(randomNum(5,20));
+    shark.y+=10;
+    shark.velocity.y= 10;
+    crewSpawnPerson(randomNum(1,4));
 }
 
 function handleNPCs(){
