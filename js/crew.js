@@ -1,11 +1,12 @@
-var maxVelocity = 50;
+var maxVelocity = 100;
 var personSpeed = 5;
 function crewAI(person){
-     //flee up
-    if (shark.y > person.y){
-        person.velocity.y-=personSpeed;
-        person.angle = 0;
+    //flee down
+    if (shark.y < person.y){
+        person.velocity.y+=personSpeed;
+        person.angle = 180;
     }
+    
     //left
     else if (shark.x > person.x) {
         person.velocity.x-=personSpeed;
@@ -16,10 +17,11 @@ function crewAI(person){
         person.velocity.x+=personSpeed;
         person.angle = 90;
     }
-    //down
-    else if (shark.y < person.y){
-        person.velocity.y+=personSpeed;
-        person.angle = 180;
+   
+    // up
+    else if (shark.y > person.y){
+        person.velocity.y-=personSpeed;
+        person.angle = 0;
     }
    
 }

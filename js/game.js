@@ -65,7 +65,6 @@ function sharkHitsPerson(shark, person) {
     var score = txtScore.text;
     score ++;
     txtScore.text = score.toString();
-    crewSpawnPerson();
 }
 
 function handleInput() {
