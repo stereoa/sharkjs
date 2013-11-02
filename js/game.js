@@ -43,7 +43,7 @@ function create() {
     boat.scale.x = -1;
     
     //add text
-     var style = { font: "30px Arial", fill: "#FFFF00", fontWeight: "bold", align: "center" };
+    var style = { font: "30px Arial", fill: "#FFFF00", fontWeight: "bold", align: "center" };
     txtScore = game.add.text(770, 0, "0", style);
     
     hairballGroup = game.add.group();
@@ -54,7 +54,6 @@ function create() {
         ball.body.collideWorldBounds = true;
     }
 } 
-
 //game logic, ~30 fps
 function update() {
     
@@ -62,21 +61,36 @@ function update() {
     handleNPCs();
     //check for collision with hairball
     game.physics.collide(shark, hairballGroup, sharkHitsHairball, null, this);
-
+    hairballGroup.forEach(hairballAI);
     
     
 } //end update function
 
+function hairballAI(hairball){
+    if (shark.x > hairball.x) {
+        hairball.velocity.x--;
+    }
+    else if (shark.x < hairball.x){
+        hairball.velocity.x++;
+    }
+    else if (shark.y > hairball.y){
+        hairball.velocity.y--;
+    }
+    else if (shark.y < hairball.y){
+        hairball.velocity.y++;
+    }
+}
 function sharkHitsHairball(protagonist, hairball) {
     hairball.kill();   
     //add one to score
     var score = txtScore.text;
     score ++;
     txtScore.text = score.toString();
-   var ball = hairballGroup.create(randomNum(1,7)*100,0, "hairball");
+   var ball = hairballGroup.create(boat.x,boat.y, "hairball");
     ball.acceleration.y = 25;        
     ball.body.collideWorldBounds = true;
 }
+
 function handleInput() {
     if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT))
     {
