@@ -32,7 +32,7 @@ function create() {
 
     shark = game.add.sprite(100, 500, 'shark');
     shark.animations.add('swim');
-    shark.animations.play('swim', 30, true);
+    shark.animations.play('swim', 8, true);
     shark.anchor.setTo(.5, 0); //center flip area
     shark.body.collideWorldBounds = true;
     shark.body.immovable = true;
@@ -80,22 +80,26 @@ function sharkHitsHairball(protagonist, hairball) {
 function handleInput() {
     if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT))
     {
-        shark.x -= 4; //move left
+        shark.velocity.x -= 4; //move left
         shark.scale.x = -1; //face left
     }
-    else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT))
+    if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT))
     {
-        shark.x += 4; //move right
+        shark.velocity.x += 4; //move right
         shark.scale.x = 1; //face right
     }
-    else if (game.input.keyboard.isDown(Phaser.Keyboard.UP))
+    if (game.input.keyboard.isDown(Phaser.Keyboard.UP))
     {
-        shark.y -= 4; //move up
+        shark.velocity.y -= 4; //move up
     }
-    else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN))
+    if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN))
     {
-        shark.y += 4; //move down      
+        shark.velocity.y += 4; //move down      
     }
+    if (shark.y<65) 
+        {
+            shark.velocity.y+=10;
+        }
 }
 function handleNPCs(){
     //controls the boat movements
