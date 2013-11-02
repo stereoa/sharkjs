@@ -1,4 +1,4 @@
-var maxVelocity = 100;
+var maxVelocity = 50;
 var personSpeed = 5;
 function crewAI(person){
     //flee down
@@ -46,6 +46,8 @@ function crewSpawnPerson()
     
     if (randomNum(1,2)==1) person = crewGroup.create(boat.x,boat.y, "person01");
     else person = crewGroup.create(boat.x,boat.y, "person02");       
+    person.anchor.setTo(.5, .5); //center flip area
+    
     person.velocity.x = randomNum(-50,50);
     person.velocity.y = randomNum(-50,50);
     person.x += randomNum(-15,15);

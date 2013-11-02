@@ -103,7 +103,7 @@ function handleNPCs(){
     if(boat.x <= 36){
         boat.scale.x = -1;
     }
-    if (crewGroup.countLiving()<100 && randomNum(0,20)==5) crewSpawnPerson();
+    if (crewGroup.countLiving()<100 && randomNum(0,100)==5) crewSpawnPerson();
     crewGroup.forEach(crewAI);
     crewGroup.forEach(crewPhysics);
 }
