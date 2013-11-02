@@ -75,7 +75,14 @@ function update() {
         shark.x += 4; //move right
         shark.scale.x = 1; //face right
     }
-    
+    else if (game.input.keyboard.isDown(Phaser.Keyboard.UP))
+    {
+        shark.y -= 4; //move up
+    }
+    else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN))
+    {
+        shark.y += 4; //move down      
+    }
     //check for collision with hairball
     game.physics.collide(
          shark, 
