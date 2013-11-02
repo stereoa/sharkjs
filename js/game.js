@@ -9,18 +9,14 @@ var game = new Phaser.Game(
             );
 
 //game variables
-var sprite, group, txtScore;
-var randomNum = randomNum(1,2);
-var person;
-var crewGroup;
+var txtScore;
 
 //load in game assets
 function preload() {
     game.load.spritesheet('shark', 'assets/animations/shark_50x23.png', 50, 23, 3);
 
     game.load.image("background", "assets/images/bg01.png")
-    game.load.image("person01", "assets/images/person01.png")
-    game.load.image("person02", "assets/images/person02.png")
+    game.load.image("person", "assets/images/person01.png")
     game.load.image("boat", "assets/images/boat.png")
 }
 
@@ -49,23 +45,12 @@ function create() {
     //add text
     var style = { font: "30px Arial", fill: "#FFFF00", fontWeight: "bold", align: "center" };
     txtScore = game.add.text(770, 0, "0", style);
-
-    
-    if (randomNum==1)
-    {
-    person = crewGroup.create(i*100,0, "person01");
-    }
-    else
-    {
-    person = crewGroup.create(i*100,0, "person02");
-    }
-
     
     crewGroup = game.add.group();
-    //stuff
-    for(var i = 0; i < 3; i++) {
-        var person = crewGroup.create(i*100,0, "person");
-        person.acceleration.y = 25;
+    //add crew member to water
+    for(var i = 0; i < 1; i++) {
+        var person = crewGroup.create(boat.x,boat.y, "person");
+        person.acceleration.y = 10;
         person.body.collideWorldBounds = true;
     }
 } 
@@ -76,12 +61,12 @@ function update() {
     handleNPCs();
     //check for collision with hairball
     game.physics.collide(shark, crewGroup, sharkHitsPerson, null, this);
-    crewGroup.forEach(crewAI);
+    crewGroup.forEach(personAI);
     
     
 } //end update function
 
-function crewAI(person){
+function personAI(person){
     if (shark.x > person.x) {
         person.velocity.x--;
     }
@@ -101,33 +86,33 @@ function sharkHitsPerson(shark, person) {
     var score = txtScore.text;
     score ++;
     txtScore.text = score.toString();
-    var person = crewGroup.create(boat.x,boat.y, "person");
-    person.acceleration.y = 25;        
+   var person = crewGroup.create(boat.x,boat.y, "person");
+    person.acceleration.y = 10;        
     person.body.collideWorldBounds = true;
 }
 
 function handleInput() {
     if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT))
     {
-        shark.velocity.x -= 4; //move left
+        shark.velocity.x -= 1; //move left
         shark.scale.x = -1; //face left
     }
     if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT))
     {
-        shark.velocity.x += 4; //move right
+        shark.velocity.x += 1; //move right
         shark.scale.x = 1; //face right
     }
     if (game.input.keyboard.isDown(Phaser.Keyboard.UP))
     {
-        shark.velocity.y -= 4; //move up
+        shark.velocity.y -= 1; //move up
     }
     if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN))
     {
-        shark.velocity.y += 4; //move down      
+        shark.velocity.y += 1; //move down      
     }
     if (shark.y<65) 
         {
-            shark.velocity.y+=10;
+            shark.velocity.y+=4;
         }
 }
 function handleNPCs(){
