@@ -10,13 +10,17 @@ var game = new Phaser.Game(
 
 //game variables
 var sprite, group, txtScore;
+var randomNum = randomNum(1,2);
+var person;
+var crewGroup;
 
 //load in game assets
 function preload() {
     game.load.spritesheet('shark', 'assets/animations/shark_50x23.png', 50, 23, 3);
 
     game.load.image("background", "assets/images/bg01.png")
-    game.load.image("hairball", "assets/images/hairball.png")
+    game.load.image("person01", "assets/images/person01.png")
+    game.load.image("person02", "assets/images/person02.png")
     game.load.image("boat", "assets/images/boat.png")
 }
 
@@ -45,13 +49,24 @@ function create() {
     //add text
     var style = { font: "30px Arial", fill: "#FFFF00", fontWeight: "bold", align: "center" };
     txtScore = game.add.text(770, 0, "0", style);
+
     
-    hairballGroup = game.add.group();
+    if (randomNum==1)
+    {
+    person = crewGroup.create(i*100,0, "person01");
+    }
+    else
+    {
+    person = crewGroup.create(i*100,0, "person02");
+    }
+
+    
+    crewGroup = game.add.group();
     //stuff
     for(var i = 0; i < 3; i++) {
-        var ball = hairballGroup.create(i*100,0, "hairball");
-        ball.acceleration.y = 25;
-        ball.body.collideWorldBounds = true;
+        var person = crewGroup.create(i*100,0, "person");
+        person.acceleration.y = 25;
+        person.body.collideWorldBounds = true;
     }
 } 
 //game logic, ~30 fps
@@ -60,35 +75,35 @@ function update() {
     handleInput();
     handleNPCs();
     //check for collision with hairball
-    game.physics.collide(shark, hairballGroup, sharkHitsHairball, null, this);
-    hairballGroup.forEach(hairballAI);
+    game.physics.collide(shark, crewGroup, sharkHitsPerson, null, this);
+    crewGroup.forEach(crewAI);
     
     
 } //end update function
 
-function hairballAI(hairball){
-    if (shark.x > hairball.x) {
-        hairball.velocity.x--;
+function crewAI(person){
+    if (shark.x > person.x) {
+        person.velocity.x--;
     }
-    else if (shark.x < hairball.x){
-        hairball.velocity.x++;
+    else if (shark.x < person.x){
+        person.velocity.x++;
     }
-    else if (shark.y > hairball.y){
-        hairball.velocity.y--;
+    else if (shark.y > person.y){
+        person.velocity.y--;
     }
-    else if (shark.y < hairball.y){
-        hairball.velocity.y++;
+    else if (shark.y < person.y){
+        person.velocity.y++;
     }
 }
-function sharkHitsHairball(protagonist, hairball) {
-    hairball.kill();   
+function sharkHitsPerson(shark, person) {
+    person.kill();   
     //add one to score
     var score = txtScore.text;
     score ++;
     txtScore.text = score.toString();
-   var ball = hairballGroup.create(boat.x,boat.y, "hairball");
-    ball.acceleration.y = 25;        
-    ball.body.collideWorldBounds = true;
+    var person = crewGroup.create(boat.x,boat.y, "person");
+    person.acceleration.y = 25;        
+    person.body.collideWorldBounds = true;
 }
 
 function handleInput() {
