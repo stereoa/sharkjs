@@ -54,7 +54,7 @@ function boatSpawn(amount) {
             bomb = crewGroup.create(boat.x, boat.y, "bomb");
             bomb.name = "bomb";
             bomb.anchor.setTo(.5, .5); //center flip area
-            bomb.body.velocity.y = randomNum(100,500);
+            bomb.body.velocity.y = randomNum(100,450);
             bomb.x += randomNum(-15, 15);
             bomb.body.collideWorldBounds = false;
         }
