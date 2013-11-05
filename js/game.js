@@ -22,12 +22,12 @@ function preload() {
     //animations
     game.load.spritesheet('shark', 'assets/animations/shark_50x23.png', 50, 23, 4);
     game.load.spritesheet('boat', 'assets/animations/boat_75x40.png', 75, 50);
-    game.load.spritesheet("kaboom", "assets/images/kaboom.png",60,60);
+    game.load.spritesheet("kaboom", "assets/animations/kaboom_60x60.png",60,60);
     //titlescreen
     game.load.image("titleScreen", "assets/images/titleScreen.png")
     game.load.image("startButton", "assets/images/startButton.png")
     //in-game
-    game.load.image("background", "assets/images/bg01.png");
+    game.load.image("water", "assets/images/water.png");
     game.load.image("waterGradient", "assets/images/waterGradient.png");
     game.load.image("waterTranspar", "assets/images/waterTrans.png");
     game.load.image("person01", "assets/images/person01.png");
@@ -39,16 +39,15 @@ function preload() {
 //setup game entities
 function create() {
     game.time.fps = 60;
-    game.stage.backgroundColor = '#000000';
+    game.stage.backgroundColor = '#FFFFFF';
     graphics = game.add.graphics(0,0);
 
     //creates titlescreen and start button
-    titleScreen = game.add.tileSprite(0, 0, 800, 600, 'titleScreen');
-    startButton = game.add.button(316, 387, 'startButton', actionOnClick, this, 2, 1, 0);
+    //titleScreen = game.add.tileSprite(0, 0, 800, 600, 'titleScreen');
+    //startButton = game.add.button(316, 387, 'startButton', actionOnClick, this, 2, 1, 0);
 
-    //background image
-    bg = game.add.tileSprite(0, 0, 800, 600, 'background');
-
+    //water filters & shadows
+    waterTrans = game.add.tileSprite(0,0, 800, 600, 'waterTranspar');
     //creates shark
     sharkAdd();
 
@@ -73,13 +72,12 @@ function create() {
     var style = { font: "30px Arial", fill: "#FFFF00", fontWeight: "bold", align: "center" };
     txtScore = game.add.text(770, 0, "0", style);
     crewGroup = game.add.group();
-    
+    waterGradient = game.add.tileSprite(0, 0, 800, 600, 'waterGradient');
+
     //spawn starting victim
     boatSpawn(1);
 
-    //water filters & shadows
-    waterTrans = game.add.tileSprite(0,0, 800, 600, 'waterTranspar');
-    waterGradient = game.add.tileSprite(0, 0, 800, 600, 'waterGradient');
+
 }
 //game logic (updates every frame)
 function update() {
@@ -92,7 +90,7 @@ function update() {
     game.physics.collide(crewGroup, crewGroup, crewMemberHitsCrewMember, null, this);
     //draw health bar
     graphics.lineStyle(2, 0xFF3300, 1);
-    graphics.drawRect(5, 10, 100, 100);
+    graphics.drawRect(5, 10, 100, 2);
 }
 
 //hides titleScreen once start button clicked
