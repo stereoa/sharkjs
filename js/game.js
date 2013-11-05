@@ -94,6 +94,7 @@ function startGame()
     var style = { font: "30px Arial", fill: "#FFFF00", fontWeight: "bold", align: "center" };
     txtScore = game.add.text(770, 0, "0", style);
     crewGroup = game.add.group();
+    waterTranspar = game.add.tileSprite(0, 0, 800, 600, 'waterTranspar');
     waterGradient = game.add.tileSprite(0, 0, 800, 600, 'waterGradient');
 
     //spawn starting victim
