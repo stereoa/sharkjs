@@ -10,6 +10,7 @@ function sharkAdd() {
     shark.body.mass = 20;
     shark.body.collideWorldBounds = true;
     shark.body.immovable = true;
+    shark.health = 100;
 }
 function handleInput() {
     var keyDown = false;

@@ -16,7 +16,7 @@ var crewGroup;
 var boat;
 var waterLine = 65;
 var explosions;
-
+var graphics;
 //load in game assets
 function preload() {
     game.load.spritesheet('shark', 'assets/animations/shark_50x23.png', 50, 23, 4);
@@ -33,7 +33,7 @@ function preload() {
 function create() {
     game.time.fps = 60;
     game.stage.backgroundColor = '#000000';
-
+    graphics = game.add.graphics(0,0);
     bg = game.add.tileSprite(0, 0, 800, 600, 'background');
 
     sharkAdd();
@@ -69,7 +69,9 @@ function update() {
     game.physics.collide(shark, crewGroup, sharkHitsPerson, null, this);
     game.physics.collide(shark, boat, sharkHitsBoat, null, this);
     game.physics.collide(crewGroup, crewGroup, crewMemberHitsCrewMember, null, this);
-
+    //draw health bar
+    graphics.lineStyle(2, 0xFF3300, 1);
+    graphics.drawRect(5, 10, 100, 100);
 }
 
 function changeScore(changeAmount) {

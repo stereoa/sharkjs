@@ -18,6 +18,7 @@ function sharkHitsPerson(shark, crewObject) {
         createExplosion(crewObject.x,crewObject.y);
         stunShark();
         crewObject.kill();
+        shark.health--;
     }
     else {
         if (!isStunned) {
