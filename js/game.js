@@ -12,7 +12,9 @@ var game = new Phaser.Game(
 //game variables
 var txtScore;
 var bg;
-var crewGroup;
+var shark;
+var victims;
+var bombs;
 var boat;
 var waterLine = 65;
 var explosions;
@@ -23,7 +25,7 @@ function preload() {
     //animations
     game.load.spritesheet('shark', 'assets/animations/shark_50x23.png', 50, 23, 4);
     game.load.spritesheet('boat', 'assets/animations/boat_75x40.png', 75, 50);
-    game.load.spritesheet("kaboom", "assets/animations/kaboom_60x60.png",60,60);
+    game.load.spritesheet("kaboom", "assets/animations/kaboom_60x60.png", 60, 60);
     //titlescreen
     game.load.image("titleScreen", "assets/images/titleScreen.png")
     game.load.image("startButton", "assets/images/startButton.png")
@@ -41,7 +43,6 @@ function preload() {
 function create() {
     game.time.fps = 60;
     game.stage.backgroundColor = '#FFFFFF';
-    graphics = game.add.graphics(0,0);
 
     //creates titlescreen and start button
     titleScreen = game.add.tileSprite(0, 0, 800, 600, 'titleScreen');
@@ -50,41 +51,33 @@ function create() {
 }
 //game logic (updates every frame)
 function update() {
-
-    if (gameIsStarted)
-    {
-    handleInput();
-    handleNPCs();
-    //check for collisions
-    game.physics.collide(shark, crewGroup, sharkHitsPerson, null, this);
-    game.physics.collide(shark, boat, sharkHitsBoat, null, this);
-    game.physics.collide(crewGroup, crewGroup, crewMemberHitsCrewMember, null, this);
-    //draw health bar
-    graphics.lineStyle(2, 0xFF3300, 1);
-    graphics.drawRect(5, 10, 100, 2);
+    if (gameIsStarted) {
+        //check for collisions
+        game.physics.collide(shark, victims, sharkHitsVictim, null, this);
+        game.physics.collide(shark, boat, sharkHitsBoat, null, this);
+        game.physics.collide(shark, bombs, sharkHitsBomb, null, this);
+        game.physics.collide(victims, victims, victimHitsVictim, null, this);
+        game.physics.collide(victims, bombs, victimHitsBomb, null, this);
+        game.physics.collide(bombs, bombs, bombHitsBomb, null, this);
+        //draw health bar
+        graphics.lineStyle(2, 0xFF3300, 1);
+        graphics.drawRect(5, 10, 100, 2);
     }
 }
 
-function startGame()
-{
+function startGame() {
 
     //water filters & shadows
-    water = game.add.tileSprite(0,0, 800, 600, 'water');
+    water = game.add.tileSprite(0, 0, 800, 600, 'water');
     //creates shark
-    sharkAdd();
+    shark = new Shark(game, 400, 300);
 
     //creates boat
-    boat = game.add.sprite(188, boatSinkLevel, 'boat');
-    boat.animations.add('burn');
-    boat.animations.play('burn', 10, true);
-    boat.anchor.setTo(.5, 0); //center flip area
-    boat.body.mass = 40000;
-    boat.scale.x = 1;
+    boat = new Boat(game, 188, waterLine);
 
     //explosions pool
     explosions = game.add.group();
-    for (var i = 0; i < 10; i++)
-    {
+    for (var i = 0; i < 100; i++) {
         var explosionAnimation = explosions.create(0, 0, 'kaboom', [0], false);
         explosionAnimation.anchor.setTo(0.5, 0.5);
         explosionAnimation.animations.add('kaboom');
@@ -93,16 +86,21 @@ function startGame()
     //add score text
     var style = { font: "30px Arial", fill: "#FFFF00", fontWeight: "bold", align: "center" };
     txtScore = game.add.text(770, 0, "0", style);
-    crewGroup = game.add.group();
-    waterTranspar = game.add.tileSprite(0, 0, 800, 600, 'waterTranspar');
-    waterGradient = game.add.tileSprite(0, 0, 800, 600, 'waterGradient');
+
+    //create entity pools
+    victims = game.add.group();
+    bombs = game.add.group();
 
     //spawn starting victim
-    boatSpawn(1);
+    boat.spawnVictim(1);
     gameIsStarted = true;
+    waterTranspar = game.add.tileSprite(0, 0, 800, 600, 'waterTranspar');
+    waterGradient = game.add.tileSprite(0, 0, 800, 600, 'waterGradient');
+    graphics = game.add.graphics(0, 0);
+
 }
 //hides titleScreen once start button clicked
-function startButtonClicked () {
+function startButtonClicked() {
     titleScreen.visible = false;
     startButton.visible = false;
     startGame();
@@ -114,21 +112,5 @@ function changeScore(changeAmount) {
     score += changeAmount;
     txtScore.setText(score.toString());
 }
-
-function createExplosion(x,y){
-    var explosionAnimation = explosions.getFirstDead();
-    explosionAnimation.reset(x,y);
-    explosionAnimation.play('kaboom', 30, false, true);
-}
-
-function handleNPCs() {
-    //controls the boat movements
-    handleBoat();
-
-    if (crewGroup.countLiving() < 100 && randomNum(1, 50) == 1) boatSpawn(1);
-    crewGroup.forEach(crewAI);
-    crewGroup.forEach(crewPhysics);
-}
-
 function render() {
 }

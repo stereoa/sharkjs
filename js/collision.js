@@ -1,39 +1,41 @@
-function crewMemberHitsCrewMember(crewMember, crewMemberVictim) {
+function victimHitsBomb(victim, bomb) {
 
-    if (crewMember.name == "bomb" || crewMemberVictim.name == "bomb") {
-        if (crewMember.y > waterLine + 50 && crewMember.y > waterLine + 50) {
+    if (bomb.y > waterLine + 50) {
 
-            if (crewMember.name =="bomb") createExplosion(crewMember.x, crewMember.y);
-            else createExplosion(crewMemberVictim.x, crewMemberVictim.y);
-            crewMember.kill();
-            crewMemberVictim.kill();
-
+            bomb.explode();
+            victim.kill();
+            bomb.kill();
             changeScore(50);
-        }
+
     }
 }
+function victimHitsVictim(victim, victim2) {
 
-function sharkHitsPerson(shark, crewObject) {
-    if (crewObject.name == 'bomb') {
-        createExplosion(crewObject.x,crewObject.y);
-        stunShark();
-        crewObject.kill();
-        shark.health--;
+}
+function sharkHitsVictim(shark, victim) {
+    if (!shark.isStunned) {
+        victim.kill();
+        changeScore(1);
     }
-    else {
-        if (!isStunned) {
-            crewObject.kill();
-            changeScore(1);
-        }
-    }
+}
+function sharkHitsBomb(shark, bomb) {
+    bomb.explode();
+    shark.stun();
+    bomb.kill();
+    shark.health--;
+}
+function bombHitsBomb(bomb, bomb2) {
+    bomb.explode();
+    bomb.kill();
+    bomb2.explode();
+    bomb2.kill();
 }
 
 function sharkHitsBoat(shark, boat) {
-    if (!isStunned) {
-        if (shark.y < 26) shark.body.velocity.x *= -.4;
-
-        shark.body.velocity.y = 20;
-        boatSpawn(randomNum(1, 4));
-        stunShark();
+    if (!shark.isStunned) {
+        shark.body.velocity.x *= -.4;
+        shark.body.velocity.y *= -.4;
+        boat.spawnVictim(randomNum(1, 4));
+        shark.stun();
     }
 }
