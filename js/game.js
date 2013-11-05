@@ -16,6 +16,7 @@ var crewGroup;
 var boat;
 var waterLine = 65;
 var explosions;
+var gameIsStarted = false;
 
 //load in game assets
 function preload() {
@@ -43,11 +44,32 @@ function create() {
     graphics = game.add.graphics(0,0);
 
     //creates titlescreen and start button
-    //titleScreen = game.add.tileSprite(0, 0, 800, 600, 'titleScreen');
-    //startButton = game.add.button(316, 387, 'startButton', actionOnClick, this, 2, 1, 0);
+    titleScreen = game.add.tileSprite(0, 0, 800, 600, 'titleScreen');
+    startButton = game.add.button(316, 387, 'startButton', startButtonClicked, this, 2, 1, 0);
+
+}
+//game logic (updates every frame)
+function update() {
+
+    if (gameIsStarted)
+    {
+    handleInput();
+    handleNPCs();
+    //check for collisions
+    game.physics.collide(shark, crewGroup, sharkHitsPerson, null, this);
+    game.physics.collide(shark, boat, sharkHitsBoat, null, this);
+    game.physics.collide(crewGroup, crewGroup, crewMemberHitsCrewMember, null, this);
+    //draw health bar
+    graphics.lineStyle(2, 0xFF3300, 1);
+    graphics.drawRect(5, 10, 100, 2);
+    }
+}
+
+function startGame()
+{
 
     //water filters & shadows
-    waterTrans = game.add.tileSprite(0,0, 800, 600, 'waterTranspar');
+    water = game.add.tileSprite(0,0, 800, 600, 'water');
     //creates shark
     sharkAdd();
 
@@ -76,28 +98,13 @@ function create() {
 
     //spawn starting victim
     boatSpawn(1);
-
-
+    gameIsStarted = true;
 }
-//game logic (updates every frame)
-function update() {
-
-    handleInput();
-    handleNPCs();
-    //check for collisions
-    game.physics.collide(shark, crewGroup, sharkHitsPerson, null, this);
-    game.physics.collide(shark, boat, sharkHitsBoat, null, this);
-    game.physics.collide(crewGroup, crewGroup, crewMemberHitsCrewMember, null, this);
-    //draw health bar
-    graphics.lineStyle(2, 0xFF3300, 1);
-    graphics.drawRect(5, 10, 100, 2);
-}
-
 //hides titleScreen once start button clicked
-function actionOnClick () {
-    titleScreen.visible =! titleScreen.visible;
-    //startButton.visible =! startButton.visible;
-
+function startButtonClicked () {
+    titleScreen.visible = false;
+    startButton.visible = false;
+    startGame();
 }
 
 //add "x" amount to score
