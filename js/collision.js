@@ -36,6 +36,6 @@ function sharkHitsBoat(shark, boat) {
         shark.body.velocity.x *= -.4;
         shark.body.velocity.y *= -.4;
         boat.spawnVictim(randomNum(1, 4));
-        shark.stun();
+        //shark.stun();
     }
 }

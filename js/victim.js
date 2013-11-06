@@ -9,7 +9,7 @@ Victim = function (game, x, y) {
     this.body.velocity.x = randomNum(-50, 50);
     this.body.velocity.y = randomNum(-50, 50);
     this.x += randomNum(-15, 15);
-    this.body.collideWorldBounds = false;
+    this.body.collideWorldBounds = true;
     game.add.existing(this);
     victims.add(this);
 }
