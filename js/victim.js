@@ -9,7 +9,7 @@ Victim = function (game, x, y) {
     this.body.velocity.x = randomNum(-50, 50);
     this.body.velocity.y = randomNum(-50, 50);
     this.x += randomNum(-15, 15);
-    this.body.collideWorldBounds = true;
+    this.body.collideWorldBounds = false;
     game.add.existing(this);
     victims.add(this);
 }
@@ -84,7 +84,15 @@ Victim.prototype.update = function () {
     if (this.y < waterLine) this.body.velocity.y = 100;
 
 //remove if off screen
-    if (this.x < 0 || this.x > 800 || this.y > 600) {
-        this.kill();
+    if (this.x < 0) {
+        xVel = maxVel;
+        this.angle = 90;
+    }
+    else if(this.x > 800) {
+        xVel = maxVel * -1;
+        this.angle = 270;
+    }
+    else if(this.y > 600) {
+        gameOver();
     }
 }
