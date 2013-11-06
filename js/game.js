@@ -27,8 +27,11 @@ function preload() {
     game.load.spritesheet('boat', 'assets/animations/boat_75x40.png', 75, 50);
     game.load.spritesheet("kaboom", "assets/animations/kaboom_60x60.png", 60, 60);
     //titlescreen
-    game.load.image("titleScreen", "assets/images/titleScreen.png")
-    game.load.image("startButton", "assets/images/startButton.png")
+    game.load.image("titleScreen", "assets/images/titleScreen.png");
+    game.load.image("startButton", "assets/images/startButton.png");
+    game.load.image("winScreen", "assets/images/winScreen.png");
+    game.load.image("loseScreen", "assets/images/loseScreen.png");
+    game.load.image("retryButton", "assets/images/retryButton.png");
     //in-game
     game.load.image("water", "assets/images/water.png");
     game.load.image("waterGradient", "assets/images/waterGradient.png");
@@ -59,9 +62,8 @@ function update() {
         game.physics.collide(victims, victims, victimHitsVictim, null, this);
         game.physics.collide(victims, bombs, victimHitsBomb, null, this);
         game.physics.collide(bombs, bombs, bombHitsBomb, null, this);
-        //draw health bar
-        graphics.lineStyle(2, 0xFF3300, 1);
-        graphics.drawRect(5, 10, 100, 2);
+        graphics.length = shark.health;
+        if (shark.health<=0) gameOver();
     }
 }
 
@@ -71,7 +73,6 @@ function startGame() {
     water = game.add.tileSprite(0, 0, 800, 600, 'water');
     //creates shark
     shark = new Shark(game, 400, 300);
-
     //creates boat
     boat = new Boat(game, 188, waterLine);
 
@@ -97,7 +98,9 @@ function startGame() {
     waterTranspar = game.add.tileSprite(0, 0, 800, 600, 'waterTranspar');
     waterGradient = game.add.tileSprite(0, 0, 800, 600, 'waterGradient');
     graphics = game.add.graphics(0, 0);
-
+    //draw health bar
+    graphics.lineStyle(2, 0xFF3300, 1);
+    graphics.drawRect(5, 10, shark.health, 2);
 }
 //hides titleScreen once start button clicked
 function startButtonClicked() {
@@ -111,6 +114,20 @@ function changeScore(changeAmount) {
     var score = parseInt(txtScore.text);
     score += changeAmount;
     txtScore.setText(score.toString());
+}
+
+function gameOver(){
+    game.removeAll();
+    if (score>100) winScreen = game.add.tileSprite(0, 0, 800, 600, 'winScreen');
+    else loseScreen = game.add.tileSprite(0, 0, 800, 600, 'loseScreen');
+    retryButton = game.add.button(316, 387, 'retryButton', restartGame, this, 2, 1, 0);
+}
+
+function restartGame()
+{
+    game.remove(winScreen);
+    game.remove(loseScreen);
+    startGame();
 }
 function render() {
 }

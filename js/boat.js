@@ -32,7 +32,7 @@ Boat.prototype.update = function() {
     this.sinkLevel += .004;
 
     if (victims.countLiving() < 100 && randomNum(1, 150) == 1) this.spawnVictim(1);
-    if (victims.countLiving() < 100 && randomNum(1, 300) == 1) this.spawnBomb(1);
+    if (victims.countLiving() < 100 && randomNum(1, 30) == 1) this.spawnBomb(1);
 }
 Boat.prototype.spawnVictim = function(amount) {
     for (var i = 0; i < amount; i++) {
