@@ -17,6 +17,7 @@ function sharkHitsVictim(shark, victim) {
         victim.kill();
         changeScore(1);
         shark.health+=5;
+        if (shark.health>100) shark.health =100;
         //creates victim blood
         var blood = game.add.sprite(victim.x, victim.y, "blood");
         blood.animations.add('blood');

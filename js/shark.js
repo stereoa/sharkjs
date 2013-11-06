@@ -69,7 +69,7 @@ Shark.prototype.update = function() {
     else this.animations.stop('swim');
     this.body.velocity.x *=.98;
     this.body.velocity.y *=.98;
-};
+}
 Shark.prototype.stun = function() {
     this.sharkStun.visible = true;
     this.sharkStun.animations.play('stunEffect',12,true);

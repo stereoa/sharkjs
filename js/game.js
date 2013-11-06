@@ -68,7 +68,7 @@ function update() {
         //draw health bar
         graphics.clear();
         graphics.lineStyle(2, 0xFF3300, 1);
-        graphics.drawRect(5, 10, shark.health*2, 2);
+        graphics.drawRect(5, 10, shark.health*4, 2);
         if (shark.health<=0) gameOver();
     }
 }
