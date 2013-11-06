@@ -22,7 +22,7 @@ function sharkHitsBomb(shark, bomb) {
     bomb.explode();
     shark.stun();
     bomb.kill();
-    shark.health-=10;
+    shark.health-=50;
 }
 function bombHitsBomb(bomb, bomb2) {
     bomb.explode();
