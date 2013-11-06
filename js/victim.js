@@ -80,30 +80,27 @@ Victim.prototype.update = function () {
 
     if (this.isScared) this.energy += 5;
     else this.energy++;
-    this.body.velocity.x = xVel * .98;
-    this.body.velocity.y = yVel * .98;
-
-    if (this.y < waterLine) this.body.velocity.y = 100;
 
 //handle edges
     var onEdge = false;
     if (this.x < 0) {
-        this.x = 10;
+        this.x = 5;
         onEdge = true;
     }
     else if (this.x > 800) {
-        this.x = 790;
+        this.x = 795;
         onEdge = true;
     }
     else if (this.y > 600) {
         gameOver();
     }
     if (onEdge) {
+        xVel = 0;
         if (shark.y >= this.y) {
             //swim up
             if (this.isScared) yVel = maxVel * -2;
             else yVel = maxVel * -1;
-            this.angle = 180;
+            this.angle = 0;
         }
         else {
             //swim down
@@ -112,4 +109,9 @@ Victim.prototype.update = function () {
             this.angle = 180;
         }
     }
+    this.body.velocity.x = xVel * .98;
+    this.body.velocity.y = yVel * .98;
+    if (this.y < waterLine) this.body.velocity.y = 100;
+
+
 }
