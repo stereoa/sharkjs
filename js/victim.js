@@ -3,8 +3,10 @@ Victim = function (game, x, y) {
     var personType = "person01";
     if (randomNum(1, 2) == 1) personType = "person02";
     Phaser.Sprite.call(this, game, x, y, personType);
+
     this.isScared = false;
     this.energy = 0;
+
     this.anchor.setTo(.5, .5); //center flip area
     this.body.velocity.x = randomNum(-50, 50);
     this.body.velocity.y = randomNum(-50, 50);
@@ -26,13 +28,13 @@ Victim.prototype.update = function () {
 
 //flee down
             if (shark.y < this.y) {
-                yVel = maxVel / 2;
+                yVel = maxVel;
                 this.angle = 180;
             }
 
 //left
             else if (shark.x > this.x) {
-                xVel = maxVel * 2;
+                xVel = maxVel * -2;
                 this.angle = 270;
             }
 //right
@@ -43,7 +45,7 @@ Victim.prototype.update = function () {
 
 // up
             else if (shark.y > this.y) {
-                yVel = maxVel * 2;
+                yVel = maxVel * -2;
                 this.angle = 0;
             }
             this.energy = 0;
@@ -83,16 +85,31 @@ Victim.prototype.update = function () {
 
     if (this.y < waterLine) this.body.velocity.y = 100;
 
-//remove if off screen
+//handle edges
+    var onEdge = false;
     if (this.x < 0) {
         this.x = 10;
-        this.angle = 90;
+        onEdge = true;
     }
     else if (this.x > 800) {
         this.x = 790;
-        this.angle = 270;
+        onEdge = true;
     }
     else if (this.y > 600) {
         gameOver();
+    }
+    if (onEdge) {
+        if (shark.y >= this.y) {
+            //swim up
+            if (this.isScared) yVel = maxVel * -2;
+            else yVel = maxVel * -1;
+            this.angle = 180;
+        }
+        else {
+            //swim down
+            if (this.isScared) yVel = maxVel;
+            else yVel = maxVel / 2;
+            this.angle = 180;
+        }
     }
 }
