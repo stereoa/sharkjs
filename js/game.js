@@ -11,7 +11,7 @@ var game = new Phaser.Game(
 
 //game variables
 var score = 0;
-var waterLine = 26;
+var waterLine = 60;
 var boat;
 var shark;
 //load in game assets
@@ -77,7 +77,7 @@ function startGame() {
     //create shark
     shark = new Shark(game, 400, 300);
     //create boat
-    boat = new Boat(game, 188, waterLine);
+    boat = new Boat(game, 188, waterLine+10);
     //explosions pool
     explosions = game.add.group();
     for (var i = 0; i < 100; i++) {
