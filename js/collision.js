@@ -16,6 +16,10 @@ function sharkHitsVictim(shark, victim) {
     if (!shark.isStunned) {
         victim.kill();
         changeScore(1);
+        //creates victim blood
+        var blood = game.add.sprite(victim.x, victim.y, "blood");
+        blood.animations.add('blood');
+        blood.animations.play('blood', 10, false);
     }
 }
 function sharkHitsBomb(shark, bomb) {
