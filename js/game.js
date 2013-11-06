@@ -31,6 +31,7 @@ function preload() {
     game.load.image("bomb", "assets/images/bomb.png");
     //animations
     game.load.spritesheet('shark', 'assets/animations/shark_50x23.png', 50, 23, 4);
+    game.load.spritesheet('blood', 'assets/animations/blood_120x15.png', 12, 15);
     game.load.spritesheet('boat', 'assets/animations/boat_75x40.png', 75, 50);
     game.load.spritesheet("kaboom", "assets/animations/kaboom_60x60.png", 60, 60);
 
