@@ -2,6 +2,7 @@ Boat = function (game, x, y) {
     //  We call the Phaser.Sprite passing in the game reference
     Phaser.Sprite.call(this, game, x, y, 'boat');
 
+    this.health = 100;
     this.animations.add('burn');
     this.animations.play('burn', 10, true);
     this.anchor.setTo(.5, 1); //center flip area

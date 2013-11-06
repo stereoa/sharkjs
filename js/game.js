@@ -10,7 +10,7 @@ var game = new Phaser.Game(
 );
 
 //game variables
-var score = 0;
+var score = 11000;
 var waterLine = 60;
 var boat;
 var shark;
@@ -86,9 +86,8 @@ function startGame() {
         explosionAnimation.animations.add('kaboom');
     }
     //add score text
-    var style = { font: "30px Arial", fill: "#FFFF00", fontWeight: "bold", align: "right" };
-    txtScore = game.add.text(770, 0, score, style);
-
+    var style = { font: "30px Arial", fill: "#FFFF00", fontWeight: "bold", textAlign: "right" };
+    txtScore = game.add.text(800, 0, score, style);
 
     //create entity pools
     victims = game.add.group();

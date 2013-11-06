@@ -16,6 +16,7 @@ function sharkHitsVictim(shark, victim) {
     if (!shark.isStunned) {
         victim.kill();
         changeScore(1);
+        shark.health+=5;
     }
 }
 function sharkHitsBomb(shark, bomb) {

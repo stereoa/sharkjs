@@ -26,24 +26,24 @@ Victim.prototype.update = function () {
 
 //flee down
             if (shark.y < this.y) {
-                yVel = maxVel*2;
+                yVel = maxVel / 2;
                 this.angle = 180;
             }
 
 //left
             else if (shark.x > this.x) {
-                xVel = maxVel*2;
+                xVel = maxVel * 2;
                 this.angle = 270;
             }
 //right
             else if (shark.x < this.x) {
-                xVel = maxVel*2;
+                xVel = maxVel * 2;
                 this.angle = 90;
             }
 
 // up
             else if (shark.y > this.y) {
-                yVel = maxVel*2;
+                yVel = maxVel * 2;
                 this.angle = 0;
             }
             this.energy = 0;
@@ -85,16 +85,14 @@ Victim.prototype.update = function () {
 
 //remove if off screen
     if (this.x < 0) {
-        this.x = 1;
-        xVel = maxVel * 3;
+        this.x = 10;
         this.angle = 90;
     }
-    else if(this.x > 800) {
-        this.x = 799;
-        xVel = maxVel * 3;
+    else if (this.x > 800) {
+        this.x = 790;
         this.angle = 270;
     }
-    else if(this.y > 600) {
+    else if (this.y > 600) {
         gameOver();
     }
 }
