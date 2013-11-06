@@ -13,7 +13,7 @@ Victim = function (game, x, y) {
     game.add.existing(this);
     victims.add(this);
 }
-Victim.maxVelocity = 75;
+Victim.maxVelocity = 55;
 Victim.prototype = Object.create(Phaser.Sprite.prototype);
 Victim.prototype.constructor = Victim;
 Victim.prototype.update = function () {
@@ -63,7 +63,7 @@ Victim.prototype.update = function () {
                     break;
                 case 3:
                     //swim down
-                    yVel = maxVel;
+                    yVel = maxVel / 2;
                     this.angle = 180;
                     break;
                 case 4:
@@ -85,11 +85,13 @@ Victim.prototype.update = function () {
 
 //remove if off screen
     if (this.x < 0) {
-        xVel = maxVel;
+        this.x = 1;
+        xVel = maxVel * 3;
         this.angle = 90;
     }
     else if(this.x > 800) {
-        xVel = maxVel * -1;
+        this.x = 799;
+        xVel = maxVel * 3;
         this.angle = 270;
     }
     else if(this.y > 600) {

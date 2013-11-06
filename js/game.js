@@ -86,7 +86,7 @@ function startGame() {
         explosionAnimation.animations.add('kaboom');
     }
     //add score text
-    var style = { font: "30px Arial", fill: "#FFFF00", fontWeight: "bold", align: "center" };
+    var style = { font: "30px Arial", fill: "#FFFF00", fontWeight: "bold", align: "right" };
     txtScore = game.add.text(770, 0, score, style);
 
 
@@ -133,6 +133,7 @@ function gameOver(){
     if (score>100) winScreen.visible = true;
     else loseScreen.visible = true;
     retryButton.visible = true;
+
 }
 
 function restartGame()
@@ -140,6 +141,8 @@ function restartGame()
     winScreen.visible = false;
     loseScreen.visible = false;
     retryButton.visible = false;
+
+    score = 0;
 
     startGame();
 }
