@@ -19,6 +19,7 @@ var boat;
 var waterLine = 65;
 var explosions;
 var gameIsStarted = false;
+var winPoints = 5;
 
 //load in game assets
 function preload() {
@@ -27,8 +28,8 @@ function preload() {
     game.load.spritesheet('boat', 'assets/animations/boat_75x40.png', 75, 50);
     game.load.spritesheet("kaboom", "assets/animations/kaboom_60x60.png", 60, 60);
     //titlescreen
-    game.load.image("titleScreen", "assets/images/titleScreen.png")
-    game.load.image("startButton", "assets/images/startButton.png")
+    game.load.image("titleScreen", "assets/images/titleScreen.png");
+    game.load.image("startButton", "assets/images/startButton.png");
     //in-game
     game.load.image("water", "assets/images/water.png");
     game.load.image("waterGradient", "assets/images/waterGradient.png");
@@ -37,6 +38,11 @@ function preload() {
     game.load.image("person02", "assets/images/person02.png");
     game.load.image("bomb", "assets/images/bomb.png");
     game.load.image("kaboom", "assets/images/kaboom.png");
+    //win/lose screen
+    game.load.image("winScreen", "assets/images/winScreen.png");
+    game.load.image("loseScreen", "assets/images/loseScreen.png");
+    game.load.image("retryButton", "assets/images/retryButton.png");
+
 }
 
 //setup game entities
@@ -47,6 +53,15 @@ function create() {
     //creates titlescreen and start button
     titleScreen = game.add.tileSprite(0, 0, 800, 600, 'titleScreen');
     startButton = game.add.button(316, 387, 'startButton', startButtonClicked, this, 2, 1, 0);
+    //creates win/lose screen and retry button
+    winScreen = game.add.tileSprite(0, 0, 800, 600, 'winScreen');
+    loseScreen = game.add.tileSprite(0, 0, 800, 600, 'loseScreen');
+    retryButton = game.add.button(316, 387, 'retryButton', retryButtonClicked, this, 2, 1, 0);
+
+    //hides win/lose screen and retry button at start up
+    winScreen.visible = false;
+    loseScreen.visible = false;
+    retryButton.visible = false;
 
 }
 //game logic (updates every frame)
@@ -62,6 +77,12 @@ function update() {
         //draw health bar
         graphics.lineStyle(2, 0xFF3300, 1);
         graphics.drawRect(5, 10, 100, 2);
+
+        //determines win
+        if(txtScore >= winPoints){
+            winScreen.visible = true;
+            retryButton.visible = true;
+        }
     }
 }
 
@@ -106,11 +127,26 @@ function startButtonClicked() {
     startGame();
 }
 
+//hides win/lose screen once retry button is clicked
+function retryButtonClicked(){
+    winScreen.visible = false;
+    loseScreen.visible = false;
+    retryButton.visible = false;
+    startGame();
+}
+
 //add "x" amount to score
 function changeScore(changeAmount) {
     var score = parseInt(txtScore.text);
     score += changeAmount;
     txtScore.setText(score.toString());
 }
+
+//controls how player can win/lose game
+function gameOver(){
+        winScreen.visible = true;
+        retryButton.visible = true;
+}
+
 function render() {
 }
