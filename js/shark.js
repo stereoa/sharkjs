@@ -63,14 +63,16 @@ Shark.prototype.update = function() {
         this.isStunned = false;
         this.scale.y=1;
     }
-
+    //fall towards water fast
     if (this.y < waterLine) this.body.velocity.y += 10;
     if (keyDown) this.animations.play('swim');
     else this.animations.stop('swim');
+    //water friction
     this.body.velocity.x *=.98;
     this.body.velocity.y *=.98;
 }
 Shark.prototype.stun = function() {
+    //show stun animation
     this.sharkStun.visible = true;
     this.sharkStun.animations.play('stunEffect',12,true);
     this.isStunned = true;

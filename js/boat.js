@@ -3,8 +3,9 @@ Boat = function (game, x, y) {
     Phaser.Sprite.call(this, game, x, y, 'boat');
     this.isDamaged = false;
     //health at which boat is considered damaged
-    this.damagedLevel = 80;
+    this.damagedLevel = 40;
     this.health = 100;
+    //undamaged frame
     this.frame = 5;
     this.anchor.setTo(.5, 1); //center flip area
     this.scale.x = 1;
@@ -14,6 +15,8 @@ Boat = function (game, x, y) {
 Boat.prototype = Object.create(Phaser.Sprite.prototype);
 Boat.prototype.constructor = Boat;
 Boat.prototype.update = function() {
+    //check if the boat is off the edge of the screen
+    //and adjust its direction
     if (this.x <= 36) {
         this.scale.x = -1;
     }
@@ -26,11 +29,15 @@ Boat.prototype.update = function() {
     if (this.scale.x == 1) {
         this.body.velocity.x = -40;
     }
+    //don't let the shark send the boat into space or sinking
     this.body.velocity.y = 0;
+    //keep the boat on the surface of the water
     this.y = waterLine+10;
+
+    //spawn items based at diff rates based on damage
     if(!this.isDamaged)
     {
-        if (victims.countLiving() < 100 && randomNum(1, 150) == 1) this.spawnVictim(1);
+        if (victims.countLiving() < 100 && randomNum(1, 300) == 1) this.spawnVictim(1);
         if (bombs.countLiving() < 100 && randomNum(1, 300) == 1) this.spawnBomb(1);
     }
     else
@@ -41,14 +48,18 @@ Boat.prototype.update = function() {
 
 
 }
+//spawns "x" amount of victims
 Boat.prototype.spawnVictim = function(amount) {
     for (var i = 0; i < amount; i++) {
         var person = new Victim(game, this.x,this.y);
     }
 }
+
+//spawns "x" amount of bombs
 Boat.prototype.spawnBomb = function(amount) {
     for (var i = 0; i < amount; i++) {
         var bomb = new Bomb(game, this.x,this.y-20);
+        //throw it off the boat in a random direction
         bomb.body.velocity.x = randomNum(-200,200);
         bomb.body.velocity.y = randomNum(-800,-100);
         bomb.x += randomNum(-15, 15);

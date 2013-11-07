@@ -10,10 +10,11 @@ var game = new Phaser.Game(
 );
 
 //game variables
-var score = 11000;
+var score;
 var waterLine = 60;
 var boat;
 var shark;
+
 //load in game assets
 function preload() {
     //screens
@@ -35,10 +36,8 @@ function preload() {
     game.load.spritesheet('blood', 'assets/animations/blood_120x15.png', 12, 15);
     game.load.spritesheet('boat', 'assets/animations/boat_75x40.png', 75, 50);
     game.load.spritesheet("kaboom", "assets/animations/kaboom_60x60.png", 60, 60);
-
 }
 
-//setup game entities
 function create() {
     game.time.fps = 60;
     game.stage.backgroundColor = '#FFFFFF';
@@ -55,6 +54,7 @@ function create() {
 
     gameIsStarted = false;
 }
+
 //game logic (updates every frame)
 function update() {
     if (gameIsStarted) {
@@ -68,21 +68,25 @@ function update() {
         //draw health bar
         healthBars.clear();
         healthBars.lineStyle(2, 0xFF0000, 1);
-        healthBars.drawRect(5, 10, shark.health*3, 2);
-        if (shark.health<=0) gameOver('lose');
-        else if (boat.health<=0) gameOver('win')
+        healthBars.drawRect(5, 10, shark.health * 3, 2);
         healthBars.lineStyle(2, 0x00FF00, 1);
-        healthBars.drawRect(795, 10, boat.health*-3, 2);
+        healthBars.drawRect(795, 10, boat.health * -3, 2);
+
+        //check if game is over
+        if (shark.health <= 0) gameOver('lose');
+        else if (boat.health <= 0) gameOver('win')
+
     }
 }
 
 function startGame() {
+    score = 0;
     //water background
     water = game.add.tileSprite(0, 0, 800, 600, 'water');
     //create shark
     shark = new Shark(game, 400, 300);
     //create boat
-    boat = new Boat(game, 188, waterLine+10);
+    boat = new Boat(game, 188, waterLine + 10);
     //explosions pool
     explosions = game.add.group();
     for (var i = 0; i < 100; i++) {
@@ -93,7 +97,7 @@ function startGame() {
 
     //add score text
     var style = { font: "30px Arial", fill: "#FFFF00", fontWeight: "bold", textAlign: "right" };
-    txtScore = game.add.text(800, 0, score, style);
+    txtScore = game.add.text(745, 20, score, style);
 
     //create entity pools
     victims = game.add.group();
@@ -101,19 +105,23 @@ function startGame() {
 
     //spawn starting victim
     boat.spawnVictim(1);
+
+    //set the game to started for update loop
     gameIsStarted = true;
+
     //water shading
     waterTranspar = game.add.tileSprite(0, 0, 800, 600, 'waterTranspar');
     healthBars = game.add.graphics(0, 0);
 
     //spawn some starting bombs
-    var amount = randomNum(10,20);
+    var amount = randomNum(10, 20);
     for (var i = 0; i < amount; i++) {
-        var randomX = randomNum(50,750);
-        var randomY = randomNum(100,500);
-        var bomb = new Bomb(game, randomX,randomY);
+        var randomX = randomNum(50, 750);
+        var randomY = randomNum(100, 500);
+        var bomb = new Bomb(game, randomX, randomY);
     }
 }
+
 //hides titleScreen once start button clicked
 function startButtonClicked() {
     titleScreen.visible = false;
@@ -127,7 +135,8 @@ function changeScore(changeAmount) {
     txtScore.setText(score.toString());
 }
 
-function gameOver(result){
+//handle end game
+function gameOver(result) {
     gameIsStarted = false;
 
     //destroy all game assets
@@ -144,21 +153,20 @@ function gameOver(result){
     waterTranspar.destroy();
     healthBars.destroy();
 
+    //show corresponding screen
     if (result == 'win') winScreen.visible = true;
     else loseScreen.visible = true;
     retryButton.visible = true;
 
 }
 
-function restartGame()
-{
+function restartGame() {
+    //turn off screens and set up new game
     winScreen.visible = false;
     loseScreen.visible = false;
     retryButton.visible = false;
-
-    score = 0;
-
     startGame();
 }
+
 function render() {
 }
