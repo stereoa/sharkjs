@@ -40,8 +40,9 @@ function bombHitsBomb(bomb, bomb2) {
 function sharkHitsBoat(shark, boat) {
     if (!shark.isStunned) {
         shark.stun();
+        forceOfHit = Math.abs(shark.body.velocity.x) + Math.abs(shark.body.velocity.y);
         shark.body.velocity.x *= -.4;
         shark.body.velocity.y *= -.4;
-        boat.spawnVictim(randomNum(1, 4));
+        boat.spawnVictim(randomNum(forceOfHit *.005,forceOfHit *.007));
     }
 }

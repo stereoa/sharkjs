@@ -30,22 +30,22 @@ Shark.prototype.update = function() {
     var keyDown = false;
     if (!this.isStunned) {
         if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
-            this.body.velocity.x -= 6; //move left
+            this.body.velocity.x -= 12; //move left
             this.scale.x = -1; //face left
             keyDown = true;
         }
 
         if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
-            this.body.velocity.x += 6; //move right
+            this.body.velocity.x += 12; //move right
             this.scale.x = 1; //face right
             keyDown = true;
         }
         if (game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
-            this.body.velocity.y -= 6; //move up
+            this.body.velocity.y -= 12; //move up
             keyDown = true;
         }
         if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
-            this.body.velocity.y += 6; //move down
+            this.body.velocity.y += 12; //move down
             keyDown = true;
         }
     }
