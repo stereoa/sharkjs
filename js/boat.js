@@ -48,6 +48,9 @@ Boat.prototype.spawnVictim = function(amount) {
 }
 Boat.prototype.spawnBomb = function(amount) {
     for (var i = 0; i < amount; i++) {
-        var bomb = new Bomb(game, this.x,this.y);
+        var bomb = new Bomb(game, this.x,this.y-20);
+        bomb.body.velocity.x = randomNum(-200,200);
+        bomb.body.velocity.y = randomNum(-800,-100);
+        bomb.x += randomNum(-15, 15);
     }
 }

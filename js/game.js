@@ -105,6 +105,14 @@ function startGame() {
     //water shading
     waterTranspar = game.add.tileSprite(0, 0, 800, 600, 'waterTranspar');
     healthBars = game.add.graphics(0, 0);
+
+    //spawn some starting bombs
+    var amount = randomNum(10,20);
+    for (var i = 0; i < amount; i++) {
+        var randomX = randomNum(50,750);
+        var randomY = randomNum(100,500);
+        var bomb = new Bomb(game, randomX,randomY);
+    }
 }
 //hides titleScreen once start button clicked
 function startButtonClicked() {
@@ -119,11 +127,13 @@ function changeScore(changeAmount) {
     txtScore.setText(score.toString());
 }
 
-function gameOver(){
+function gameOver(result){
     gameIsStarted = false;
 
     //destroy all game assets
+    shark.sharkStun.destroy();
     shark.destroy();
+
     boat.destroy();
     bombs.destroy();
     victims.destroy();
@@ -134,7 +144,7 @@ function gameOver(){
     waterTranspar.destroy();
     healthBars.destroy();
 
-    if (score>100) winScreen.visible = true;
+    if (result == 'win') winScreen.visible = true;
     else loseScreen.visible = true;
     retryButton.visible = true;
 
