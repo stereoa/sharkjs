@@ -44,5 +44,6 @@ function sharkHitsBoat(shark, boat) {
         shark.body.velocity.x *= -.4;
         shark.body.velocity.y *= -.4;
         boat.spawnVictim(randomNum(forceOfHit *.005,forceOfHit *.007));
+        boat.health -= forceOfHit*.005;
     }
 }

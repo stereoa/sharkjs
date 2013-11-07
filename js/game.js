@@ -66,10 +66,13 @@ function update() {
         game.physics.collide(victims, bombs, victimHitsBomb, null, this);
         game.physics.collide(bombs, bombs, bombHitsBomb, null, this);
         //draw health bar
-        graphics.clear();
-        graphics.lineStyle(2, 0xFF3300, 1);
-        graphics.drawRect(5, 10, shark.health*4, 2);
-        if (shark.health<=0) gameOver();
+        healthBars.clear();
+        healthBars.lineStyle(2, 0xFF0000, 1);
+        healthBars.drawRect(5, 10, shark.health*3, 2);
+        if (shark.health<=0) gameOver('lose');
+        else if (boat.health<=0) gameOver('win')
+        healthBars.lineStyle(2, 0x00FF00, 1);
+        healthBars.drawRect(795, 10, boat.health*-3, 2);
     }
 }
 
@@ -101,8 +104,7 @@ function startGame() {
     gameIsStarted = true;
     //water shading
     waterTranspar = game.add.tileSprite(0, 0, 800, 600, 'waterTranspar');
-    graphics = game.add.graphics(0, 0);
-
+    healthBars = game.add.graphics(0, 0);
 }
 //hides titleScreen once start button clicked
 function startButtonClicked() {
@@ -130,7 +132,7 @@ function gameOver(){
     txtScore.destroy();
     water.destroy();
     waterTranspar.destroy();
-    graphics.destroy();
+    healthBars.destroy();
 
     if (score>100) winScreen.visible = true;
     else loseScreen.visible = true;

@@ -2374,7 +2374,7 @@ PIXI.TilingSprite.prototype.onTextureUpdate = function(event)
 
 PIXI.FilterBlock = function(mask)
 {
-	this.graphics = mask
+	this.healthBars = mask
 	this.visible = true;
 	this.renderable = true;
 }
@@ -2389,7 +2389,7 @@ PIXI.FilterBlock = function(mask)
 PIXI.MaskFilter = function(graphics)
 {
 	// the graphics data that will be used for filtering
-	this.graphics;
+	this.healthBars;
 }
 
 
@@ -2651,11 +2651,11 @@ PIXI.CanvasGraphics = function()
  */
 PIXI.CanvasGraphics.renderGraphics = function(graphics, context)
 {
-	var worldAlpha = graphics.worldAlpha;
+	var worldAlpha = healthBars.worldAlpha;
 	
-	for (var i=0; i < graphics.graphicsData.length; i++) 
+	for (var i=0; i < healthBars.graphicsData.length; i++)
 	{
-		var data = graphics.graphicsData[i];
+		var data = healthBars.graphicsData[i];
 		var points = data.points;
 		
 		context.strokeStyle = color = '#' + ('00000' + ( data.lineColor | 0).toString(16)).substr(-6);
@@ -2786,9 +2786,9 @@ PIXI.CanvasGraphics.renderGraphics = function(graphics, context)
  */
 PIXI.CanvasGraphics.renderGraphicsMask = function(graphics, context)
 {
-	var worldAlpha = graphics.worldAlpha;
+	var worldAlpha = healthBars.worldAlpha;
 	
-	var len = graphics.graphicsData.length;
+	var len = healthBars.graphicsData.length;
 	if(len > 1)
 	{
 		len = 1;
@@ -2797,7 +2797,7 @@ PIXI.CanvasGraphics.renderGraphicsMask = function(graphics, context)
 	
 	for (var i=0; i < 1; i++) 
 	{
-		var data = graphics.graphicsData[i];
+		var data = healthBars.graphicsData[i];
 		var points = data.points;
 		
 		if(data.type == PIXI.Graphics.POLY)
@@ -3841,32 +3841,32 @@ PIXI.WebGLGraphics.renderGraphics = function(graphics, projection)
 {
 	var gl = PIXI.gl;
 	
-	if(!graphics._webGL)graphics._webGL = {points:[], indices:[], lastIndex:0, 
+	if(!healthBars._webGL)healthBars._webGL = {points:[], indices:[], lastIndex:0,
 										   buffer:gl.createBuffer(),
 										   indexBuffer:gl.createBuffer()};
 	
-	if(graphics.dirty)
+	if(healthBars.dirty)
 	{
-		graphics.dirty = false;
+		healthBars.dirty = false;
 		
-		if(graphics.clearDirty)
+		if(healthBars.clearDirty)
 		{
-			graphics.clearDirty = false;
+			healthBars.clearDirty = false;
 			
-			graphics._webGL.lastIndex = 0;
-			graphics._webGL.points = [];
-			graphics._webGL.indices = [];
+			healthBars._webGL.lastIndex = 0;
+			healthBars._webGL.points = [];
+			healthBars._webGL.indices = [];
 			
 		}
 		
-		PIXI.WebGLGraphics.updateGraphics(graphics);
+		PIXI.WebGLGraphics.updateGraphics(healthBars);
 	}
 	
 	
 	PIXI.activatePrimitiveShader();
 	
 	// This  could be speeded up fo sure!
-	var m = PIXI.mat3.clone(graphics.worldTransform);
+	var m = PIXI.mat3.clone(healthBars.worldTransform);
 	
 	PIXI.mat3.transpose(m);
 	
@@ -3877,9 +3877,9 @@ PIXI.WebGLGraphics.renderGraphics = function(graphics, projection)
  	
 	gl.uniform2f(PIXI.primitiveProgram.projectionVector, projection.x, projection.y);
 	
-	gl.uniform1f(PIXI.primitiveProgram.alpha, graphics.worldAlpha);
+	gl.uniform1f(PIXI.primitiveProgram.alpha, healthBars.worldAlpha);
 
-	gl.bindBuffer(gl.ARRAY_BUFFER, graphics._webGL.buffer);
+	gl.bindBuffer(gl.ARRAY_BUFFER, healthBars._webGL.buffer);
 	
 	// WHY DOES THIS LINE NEED TO BE THERE???
 	gl.vertexAttribPointer(PIXI.shaderProgram.vertexPositionAttribute, 2, gl.FLOAT, false, 0, 0);
@@ -3890,9 +3890,9 @@ PIXI.WebGLGraphics.renderGraphics = function(graphics, projection)
 	gl.vertexAttribPointer(PIXI.primitiveProgram.colorAttribute, 4, gl.FLOAT, false,4 * 6, 2 * 4);
 	
 	// set the index buffer!
-	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, graphics._webGL.indexBuffer);
+	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, healthBars._webGL.indexBuffer);
 	
-	gl.drawElements(gl.TRIANGLE_STRIP,  graphics._webGL.indices.length, gl.UNSIGNED_SHORT, 0 );
+	gl.drawElements(gl.TRIANGLE_STRIP,  healthBars._webGL.indices.length, gl.UNSIGNED_SHORT, 0 );
 	
 	// return to default shader...
 	PIXI.activateDefaultShader();
@@ -3908,46 +3908,46 @@ PIXI.WebGLGraphics.renderGraphics = function(graphics, projection)
  */
 PIXI.WebGLGraphics.updateGraphics = function(graphics)
 {
-	for (var i=graphics._webGL.lastIndex; i < graphics.graphicsData.length; i++) 
+	for (var i=healthBars._webGL.lastIndex; i < healthBars.graphicsData.length; i++)
 	{
-		var data = graphics.graphicsData[i];
+		var data = healthBars.graphicsData[i];
 		
 		if(data.type == PIXI.Graphics.POLY)
 		{
 			if(data.fill)
 			{
 				if(data.points.length>3) 
-				PIXI.WebGLGraphics.buildPoly(data, graphics._webGL);
+				PIXI.WebGLGraphics.buildPoly(data, healthBars._webGL);
 			}
 			
 			if(data.lineWidth > 0)
 			{
-				PIXI.WebGLGraphics.buildLine(data, graphics._webGL);
+				PIXI.WebGLGraphics.buildLine(data, healthBars._webGL);
 			}
 		}
 		else if(data.type == PIXI.Graphics.RECT)
 		{
-			PIXI.WebGLGraphics.buildRectangle(data, graphics._webGL);
+			PIXI.WebGLGraphics.buildRectangle(data, healthBars._webGL);
 		}
 		else if(data.type == PIXI.Graphics.CIRC || data.type == PIXI.Graphics.ELIP)
 		{
-			PIXI.WebGLGraphics.buildCircle(data, graphics._webGL);
+			PIXI.WebGLGraphics.buildCircle(data, healthBars._webGL);
 		}
 	};
 	
-	graphics._webGL.lastIndex = graphics.graphicsData.length;
+	healthBars._webGL.lastIndex = healthBars.graphicsData.length;
 	
 	var gl = PIXI.gl;
 
-	graphics._webGL.glPoints = new Float32Array(graphics._webGL.points);
+	healthBars._webGL.glPoints = new Float32Array(healthBars._webGL.points);
 	
-	gl.bindBuffer(gl.ARRAY_BUFFER, graphics._webGL.buffer);
-	gl.bufferData(gl.ARRAY_BUFFER, graphics._webGL.glPoints, gl.STATIC_DRAW);
+	gl.bindBuffer(gl.ARRAY_BUFFER, healthBars._webGL.buffer);
+	gl.bufferData(gl.ARRAY_BUFFER, healthBars._webGL.glPoints, gl.STATIC_DRAW);
 	
-	graphics._webGL.glIndicies = new Uint16Array(graphics._webGL.indices);
+	healthBars._webGL.glIndicies = new Uint16Array(healthBars._webGL.indices);
 	
-	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, graphics._webGL.indexBuffer);
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, graphics._webGL.glIndicies, gl.STATIC_DRAW);
+	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, healthBars._webGL.indexBuffer);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, healthBars._webGL.glIndicies, gl.STATIC_DRAW);
 }
 
 /**
