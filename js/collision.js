@@ -39,11 +39,17 @@ function bombHitsBomb(bomb, bomb2) {
 
 function sharkHitsBoat(shark, boat) {
     if (!shark.isStunned) {
-        shark.stun();
+        //shark.stun();
         forceOfHit = Math.abs(shark.body.velocity.x) + Math.abs(shark.body.velocity.y);
         shark.body.velocity.x *= -.4;
         shark.body.velocity.y *= -.4;
         boat.spawnVictim(randomNum(forceOfHit *.005,forceOfHit *.007));
         boat.health -= forceOfHit*.005;
+        if(boat.health<=boat.damagedLevel && !boat.isDamaged)
+        {
+            boat.isDamaged = true;
+            boat.animations.add('burn',[0,1,2,3,4]);
+            boat.animations.play('burn', 10, true);
+        }
     }
 }
