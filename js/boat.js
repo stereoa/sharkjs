@@ -7,7 +7,7 @@ Boat = function (game, x, y) {
     this.health = 100;
     //undamaged frame
     this.frame = 5;
-    this.anchor.setTo(.5, 1); //center flip area
+    this.anchor.setTo(.5,.5); //center flip area
     this.scale.x = 1;
     game.add.existing(this);
 }
@@ -32,7 +32,7 @@ Boat.prototype.update = function() {
     //don't let the shark send the boat into space or sinking
     this.body.velocity.y = 0;
     //keep the boat on the surface of the water
-    this.y = waterLine+10;
+    this.y = waterLine-15;
 
     //spawn items based at diff rates based on damage
     if(!this.isDamaged)

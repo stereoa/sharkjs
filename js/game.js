@@ -86,7 +86,7 @@ function startGame() {
     //create shark
     shark = new Shark(game, 400, 300);
     //create boat
-    boat = new Boat(game, 188, waterLine + 10);
+    boat = new Boat(game, 188, waterLine);
     //explosions pool
     explosions = game.add.group();
     for (var i = 0; i < 100; i++) {

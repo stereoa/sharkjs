@@ -52,5 +52,12 @@ function sharkHitsBoat(shark, boat) {
             boat.animations.add('burn', [0, 1, 2, 3, 4]);
             boat.animations.play('burn', 10, true);
         }
+        //if shark hits side of boat
+        if (shark.y>boat.y-boat.height/2 && shark.y<boat.y+boat.height/2)
+        {
+            //and boat is facing shark, then turn boat around.. should help with getting stuck
+            if ((shark.x > boat.x && boat.scale.x ==-1)||(shark.x<boat.x && boat.scale.x==1)) boat.scale.x*=-1;
+
+        }
     }
 }
