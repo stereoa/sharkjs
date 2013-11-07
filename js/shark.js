@@ -28,7 +28,7 @@ Shark.prototype.update = function() {
 
     //  Automatically called by World.update
     var keyDown = false;
-    if (!this.isStunned) {
+    if (!this.isStunned && this.y>waterLine-5) {
         if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
             this.body.velocity.x -= 12; //move left
             this.scale.x = -1; //face left
