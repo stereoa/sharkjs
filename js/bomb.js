@@ -23,4 +23,6 @@ Bomb.prototype.explode = function(){
     var explosionAnimation = explosions.getFirstDead();
     explosionAnimation.reset(this.x,this.y);
     explosionAnimation.play('kaboom', 30, false, true);
+
+    explode.play('',0,1,false);
 }

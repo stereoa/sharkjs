@@ -14,6 +14,11 @@ var score;
 var waterLine = 60;
 var boat;
 var shark;
+//sound variables
+var explode;
+var eatten;
+var boatHit;
+var boatExplosion;
 
 //load in game assets
 function preload() {
@@ -36,6 +41,11 @@ function preload() {
     game.load.spritesheet('blood', 'assets/animations/blood_120x15.png', 12, 15);
     game.load.spritesheet('boat', 'assets/animations/boat_75x40.png', 75, 50);
     game.load.spritesheet("kaboom", "assets/animations/kaboom_60x60.png", 60, 60);
+    //sounds
+    game.load.audio('explode', ['assets/audio/soundEffects/explosion.mp3', 'assets/audio/soundEffects/explosion.ogg']);
+    game.load.audio('eatten', ['assets/audio/soundEffects/eatten.mp3', 'assets/audio/soundEffects/eatten.ogg']);
+    game.load.audio('boatHit', ['assets/audio/soundEffects/boatHit.mp3', 'assets/audio/soundEffects/boatHit.ogg']);
+    game.load.audio('boatExplosion', ['assets/audio/soundEffects/boatExplosion.mp3', 'assets/audio/soundEffects/boatExplosion.ogg']);
 }
 
 function create() {
@@ -51,6 +61,11 @@ function create() {
     loseScreen.visible = false;
     retryButton = game.add.button(316, 387, 'retryButton', restartGame, this, 2, 1, 0);
     retryButton.visible = false;
+    //sounds
+    explode = game.add.audio('explode',1,false);
+    eatten = game.add.audio('eatten',1,false);
+    boatHit = game.add.audio('boatHit',1,false);
+    boatExplosion = game.add.audio('boatExplosion', 1,false);
 
     gameIsStarted = false;
 }

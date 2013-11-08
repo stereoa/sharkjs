@@ -20,6 +20,7 @@ function sharkHitsVictim(shark, victim) {
         var blood = game.add.sprite(victim.x, victim.y, "blood");
         blood.animations.add('blood');
         blood.animations.play('blood', 10, false);
+        eatten.play('',0,1,false);
     }
 }
 function sharkHitsBomb(shark, bomb) {
@@ -36,7 +37,9 @@ function bombHitsBomb(bomb, bomb2) {
 }
 
 function sharkHitsBoat(shark, boat) {
+
     if (!shark.isStunned) {
+        boatHit.play('',0,1,false);
         //shark.stun();
         //just a number to gauge how fast the shark hits the boat.
         forceOfHit = Math.abs(shark.body.velocity.x) + Math.abs(shark.body.velocity.y);
@@ -49,6 +52,7 @@ function sharkHitsBoat(shark, boat) {
         //checks if boat has entered damaged state yet or needs to
         if (boat.health <= boat.damagedLevel && !boat.isDamaged) {
             boat.isDamaged = true;
+            boatExplosion.play('',0,1,false);
             boat.animations.add('burn', [0, 1, 2, 3, 4]);
             boat.animations.play('burn', 10, true);
         }

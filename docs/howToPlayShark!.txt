@@ -1,0 +1,11 @@
+HOW TO PLAY "SHARK!"
+
+	Controls:
+		Movement = arrow keys;
+
+
+	Objective:
+		"Researchers are trying to blow you up!  That's right the once friendly scientist has gone mad, and is trying to blow you up! Try and return the favor by ramming their precious boat.
+		Don't let any of the cowardly crew get away!"
+
+	
