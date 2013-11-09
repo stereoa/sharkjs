@@ -22,6 +22,9 @@ function sharkHitsVictim(shark, victim) {
         blood.animations.play('blood', 10, false);
         eatten.play('',0,1,false);
     }
+    else {
+        stunnedContact.play();
+    }
 }
 function sharkHitsBomb(shark, bomb) {
     bomb.explode();
@@ -63,5 +66,8 @@ function sharkHitsBoat(shark, boat) {
             if ((shark.x > boat.x && boat.scale.x ==-1)||(shark.x<boat.x && boat.scale.x==1)) boat.scale.x*=-1;
 
         }
+    }
+    else {
+        stunnedContact.play();
     }
 }
