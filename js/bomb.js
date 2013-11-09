@@ -29,4 +29,5 @@ Bomb.prototype.explode = function(){
     explosionAnimation.play('kaboom', 30, false, true);
 
     explode.play('',0,1,false);
+
 }

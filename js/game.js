@@ -19,6 +19,7 @@ var explode;
 var eatten;
 var boatHit;
 var boatExplosion;
+var stunnedContact;
 
 //load in game assets
 function preload() {
@@ -46,6 +47,7 @@ function preload() {
     game.load.audio('eatten', ['assets/audio/soundEffects/eatten.mp3', 'assets/audio/soundEffects/eatten.ogg']);
     game.load.audio('boatHit', ['assets/audio/soundEffects/boatHit.mp3', 'assets/audio/soundEffects/boatHit.ogg']);
     game.load.audio('boatExplosion', ['assets/audio/soundEffects/boatExplosion.mp3', 'assets/audio/soundEffects/boatExplosion.ogg']);
+    game.load.audio('stunnedContact', ['assets/audio/soundEffects/stunnedContact.mp3', 'assets/audio/soundEffects/stunnedContact.ogg']);
 }
 
 function create() {
@@ -64,8 +66,9 @@ function create() {
     //sounds
     explode = game.add.audio('explode',1,false);
     eatten = game.add.audio('eatten',1,false);
-    boatHit = game.add.audio('boatHit',1,false);
+    boatHit = game.add.audio('boatHit',0,false);
     boatExplosion = game.add.audio('boatExplosion', 1,false);
+    stunnedContact = game.add.audio('stunnedContact', 1,false);
 
     gameIsStarted = false;
 }
@@ -89,7 +92,7 @@ function update() {
 
         //check if game is over
         if (shark.health <= 0) gameOver('lose');
-        else if (boat.health <= 0) gameOver('win')
+        else if (boat.health <= 0) gameOver('win');
 
     }
 }
