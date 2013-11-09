@@ -64,7 +64,11 @@ Shark.prototype.update = function() {
         this.scale.y=1;
     }
     //fall towards water fast
-    if (this.y < waterLine) this.body.velocity.y += 10;
+    if (this.y < waterLine)
+    {
+        this.body.velocity.y = 100;
+        //if (this.y+this.body.velocity.y>waterLine) playSound(this.x,this.y,splash);
+    }
     if (keyDown) this.animations.play('swim');
     else this.animations.stop('swim');
     //water friction

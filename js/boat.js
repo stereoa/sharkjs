@@ -38,7 +38,7 @@ Boat.prototype.update = function() {
     if(!this.isDamaged)
     {
         if (victims.countLiving() < 100 && randomNum(1, 300) == 1) this.spawnVictim(1);
-        if (bombs.countLiving() < 100 && randomNum(1, 300) == 1) this.spawnBomb(1);
+            if (bombs.countLiving() < 100 && randomNum(1, 300) == 1) this.spawnBomb(1);
     }
     else
     {

@@ -16,7 +16,11 @@ Bomb.prototype.update = function() {
     //when the bomb hits the water stop moving left and right
     if (Math.abs(this.body.velocity.x !=0) && this.y > waterLine) this.body.velocity.x = 0;
     //pull towards water if in air
-    if (this.y < waterLine+10) this.body.velocity.y += 50;
+    if (this.y < waterLine+10){
+        this.body.velocity.y += 50;
+        //if (this.y+this.body.velocity.y>waterLine) playSound(this.x,this.y,splash);
+    }
+
 }
 //creates explosion effect
 Bomb.prototype.explode = function(){

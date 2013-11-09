@@ -150,6 +150,12 @@ function changeScore(changeAmount) {
     txtScore.setText(score.toString());
 }
 
+function playSound(x,y,sound)
+{
+var soundPoint = new Point(x,y);
+sound.volume = game.physics.distanceToXY(shark,x,y)/800;
+sound.play();
+}
 //handle end game
 function gameOver(result) {
     gameIsStarted = false;

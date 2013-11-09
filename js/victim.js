@@ -20,6 +20,8 @@ Victim.prototype = Object.create(Phaser.Sprite.prototype);
 Victim.prototype.constructor = Victim;
 Victim.prototype.update = function () {
     if (game.physics.distanceBetween(this, shark) < 100) this.isScared = true;
+
+    //temp local vars for readability
     var xVel = this.body.velocity.x;
     var yVel = this.body.velocity.y;
     var maxVel = Victim.maxVelocity;
@@ -111,7 +113,10 @@ Victim.prototype.update = function () {
     }
     this.body.velocity.x = xVel * .98;
     this.body.velocity.y = yVel * .98;
-    if (this.y < waterLine) this.body.velocity.y = 100;
-
+    if (this.y < waterLine)
+    {
+        this.body.velocity.y = 100;
+        //if (this.y+this.body.velocity.y>waterLine) playSound(this.x,this.y,splash);
+    }
 
 }
