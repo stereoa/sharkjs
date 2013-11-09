@@ -9,6 +9,9 @@ Shark = function (game, x, y) {
     this.body.collideWorldBounds = true;
     this.body.immovable = true;
     this.health = 100;
+    this.inWater=false;
+    if (this.y>waterLine) this.inWater = true;
+
     game.add.existing(this);
 
     //stun effect
@@ -63,11 +66,18 @@ Shark.prototype.update = function() {
         this.isStunned = false;
         this.scale.y=1;
     }
-    //fall towards water fast
+    //handle water
     if (this.y < waterLine)
     {
-        this.body.velocity.y = 100;
-        //if (this.y+this.body.velocity.y>waterLine) playSound(this.x,this.y,splash);
+        this.inWater = false;
+        this.body.velocity.y += 50;
+    } else
+    {
+        if (this.inWater==false)
+        {
+            this.inWater = true;
+            playSound(this.x,this.y,splash);
+        }
     }
     if (keyDown) this.animations.play('swim');
     else this.animations.stop('swim');

@@ -6,6 +6,8 @@ Victim = function (game, x, y) {
 
     this.isScared = false;
     this.energy = 0;
+    this.inWater=false;
+    if (this.y>waterLine) this.inWater = true;
 
     this.anchor.setTo(.5, .5); //center flip area
     this.body.velocity.x = randomNum(-50, 50);
@@ -113,10 +115,18 @@ Victim.prototype.update = function () {
     }
     this.body.velocity.x = xVel * .98;
     this.body.velocity.y = yVel * .98;
+    //handle water
     if (this.y < waterLine)
     {
-        this.body.velocity.y = 100;
-        //if (this.y+this.body.velocity.y>waterLine) playSound(this.x,this.y,splash);
+        this.inWater = false;
+        this.body.velocity.y += 50;
+    } else
+    {
+        if (this.inWater==false)
+        {
+            this.inWater = true;
+            playSound(this.x,this.y,splash);
+        }
     }
 
 }

@@ -20,29 +20,33 @@ function sharkHitsVictim(shark, victim) {
         var blood = game.add.sprite(victim.x, victim.y, "blood");
         blood.animations.add('blood');
         blood.animations.play('blood', 10, false);
-        eatten.play('',0,1,false);
+        playSound(eatten);
     }
     else {
-        stunnedContact.play();
+        playSound(stunnedContact);
     }
 }
 function sharkHitsBomb(shark, bomb) {
-    bomb.explode();
-    shark.stun();
-    bomb.kill();
-    shark.health -= 50;
+    if (bomb.y > waterLine + 50) {
+        bomb.explode();
+        shark.stun();
+        bomb.kill();
+        shark.health -= 50;
+    }
 }
 function bombHitsBomb(bomb, bomb2) {
-    bomb.explode();
-    bomb.kill();
-    bomb2.explode();
-    bomb2.kill();
+    if (bomb.y > waterLine + 50) {
+        bomb.explode();
+        bomb.kill();
+        bomb2.explode();
+        bomb2.kill();
+    }
 }
 
 function sharkHitsBoat(shark, boat) {
 
     if (!shark.isStunned) {
-        boatHit.play('',0,1,false);
+        playSound(boatHit);
         //shark.stun();
         //just a number to gauge how fast the shark hits the boat.
         forceOfHit = Math.abs(shark.body.velocity.x) + Math.abs(shark.body.velocity.y);
@@ -55,19 +59,18 @@ function sharkHitsBoat(shark, boat) {
         //checks if boat has entered damaged state yet or needs to
         if (boat.health <= boat.damagedLevel && !boat.isDamaged) {
             boat.isDamaged = true;
-            boatExplosion.play('',0,1,false);
+            playSound(boatExplosion);
             boat.animations.add('burn', [0, 1, 2, 3, 4]);
             boat.animations.play('burn', 10, true);
         }
         //if shark hits side of boat
-        if (shark.y>boat.y-boat.height/2 && shark.y<boat.y+boat.height/2)
-        {
+        if (shark.y > boat.y - boat.height / 2 && shark.y < boat.y + boat.height / 2) {
             //and boat is facing shark, then turn boat around.. should help with getting stuck
-            if ((shark.x > boat.x && boat.scale.x ==-1)||(shark.x<boat.x && boat.scale.x==1)) boat.scale.x*=-1;
+            if ((shark.x > boat.x && boat.scale.x == -1) || (shark.x < boat.x && boat.scale.x == 1)) boat.scale.x *= -1;
 
         }
     }
     else {
-        stunnedContact.play();
+        playSound(stunnedContact);
     }
 }

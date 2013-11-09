@@ -16,7 +16,6 @@ var boat;
 var shark;
 //sound variables
 var explode;
-var eatten;
 var boatHit;
 var boatExplosion;
 var stunnedContact;
@@ -48,6 +47,7 @@ function preload() {
     game.load.audio('boatHit', ['assets/audio/soundEffects/boatHit.mp3', 'assets/audio/soundEffects/boatHit.ogg']);
     game.load.audio('boatExplosion', ['assets/audio/soundEffects/boatExplosion.mp3', 'assets/audio/soundEffects/boatExplosion.ogg']);
     game.load.audio('stunnedContact', ['assets/audio/soundEffects/stunnedContact.mp3', 'assets/audio/soundEffects/stunnedContact.ogg']);
+    game.load.audio('splash', ['assets/audio/soundEffects/splash.mp3', 'assets/audio/soundEffects/splash.ogg']);
 }
 
 function create() {
@@ -66,9 +66,10 @@ function create() {
     //sounds
     explode = game.add.audio('explode',1,false);
     eatten = game.add.audio('eatten',1,false);
-    boatHit = game.add.audio('boatHit',0,false);
+    boatHit = game.add.audio('boatHit',1,false);
     boatExplosion = game.add.audio('boatExplosion', 1,false);
     stunnedContact = game.add.audio('stunnedContact', 1,false);
+    splash = game.add.audio('splash', 1,false);
 
     gameIsStarted = false;
 }
@@ -155,9 +156,22 @@ function changeScore(changeAmount) {
 
 function playSound(x,y,sound)
 {
-var soundPoint = new Point(x,y);
-sound.volume = game.physics.distanceToXY(shark,x,y)/800;
-sound.play();
+    var volume = 1;
+    //if only one argument is supplied (aka we don't care about distance)
+    if(typeof x === "object")
+    {
+        sound = x;
+    }
+    else
+    {
+    var distance = game.physics.distanceToXY(shark,x,y);
+    var maxDistance = 300;
+    if (distance>maxDistance) distance=maxDistance;
+    volume = (maxDistance-distance)/maxDistance;
+    }
+    if (volume == 0) volume = 0.01;
+    sound.play();
+    sound.volume = volume;
 }
 //handle end game
 function gameOver(result) {
