@@ -66,7 +66,7 @@ function create() {
     retryButton.visible = false;
     //sounds
     explode = game.add.audio('explode',1,false);
-    eatten = game.add.audio('eatten',1,false);
+    eatten = game.add.audio('eatten',.5,false);
     boatHit = game.add.audio('boatHit',1,false);
     boatExplosion = game.add.audio('boatExplosion', 1,false);
     stunnedContact = game.add.audio('stunnedContact', 1,false);
@@ -160,13 +160,14 @@ function changeScore(changeAmount) {
     txtScore.setText(score.toString());
 }
 
-function playSound(x,y,sound)
+function playSound(x,y,sound,volume)
 {
     var volume = 1;
     //if only one argument is supplied (aka we don't care about distance)
     if(typeof x === "object")
     {
         sound = x;
+        volume = y;
     }
     else
     {

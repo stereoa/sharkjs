@@ -76,7 +76,7 @@ Shark.prototype.update = function() {
         if (this.inWater==false)
         {
             this.inWater = true;
-            playSound(this.x,this.y,splash);
+            playSound(this.x,this.y,splash,.1);
         }
     }
     if (keyDown) this.animations.play('swim');
