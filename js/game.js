@@ -53,7 +53,8 @@ function preload() {
 function create() {
     game.time.fps = 60;
     game.stage.backgroundColor = '#FFFFFF';
-
+    fullScreenKey = game.input.keyboard.addKey(Phaser.Keyboard.F);
+    fullScreenKey.onDown.add(toggleFullScreen, this);
     //create screens and buttons
     titleScreen = game.add.tileSprite(0, 0, 800, 600, 'titleScreen');
     startButton = game.add.button(316, 387, 'startButton', startButtonClicked, this, 2, 1, 0);
@@ -96,6 +97,11 @@ function update() {
         else if (boat.health <= 0) gameOver('win');
 
     }
+}
+function toggleFullScreen()
+{
+        if (!game.stage.scale.isFullScreen) game.stage.scale.startFullScreen();
+        else game.stage.scale.stopFullScreen();
 }
 
 function startGame() {
