@@ -24,10 +24,9 @@ var stunnedContact;
 function preload() {
     //screens
     game.load.image("titleScreen", "assets/images/titleScreen.png");
-    game.load.image("startButton", "assets/images/startButton.png");
     game.load.image("winScreen", "assets/images/winScreen.png");
     game.load.image("loseScreen", "assets/images/loseScreen.png");
-    game.load.image("retryButton", "assets/images/retryButton.png");
+    //game.load.image("retryButton", "assets/images/retryButton.png");
     //in-game
     game.load.image("water", "assets/images/water.png");
     game.load.image("waterGradient", "assets/images/waterGradient.png");
@@ -53,17 +52,24 @@ function preload() {
 function create() {
     game.time.fps = 60;
     game.stage.backgroundColor = '#FFFFFF';
+
+    //press "F" to toggle fullscreen
     fullScreenKey = game.input.keyboard.addKey(Phaser.Keyboard.F);
     fullScreenKey.onDown.add(toggleFullScreen, this);
+    
     //create screens and buttons
     titleScreen = game.add.tileSprite(0, 0, 800, 600, 'titleScreen');
-    startButton = game.add.button(316, 387, 'startButton', startButtonClicked, this, 2, 1, 0);
+
+    //pressing "Enter" key starts game
+    Phaser.Keyboard.ENTER = 13;
+    startGameKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+    startGameKey.onDown.add(startKeyPressed, this);
+
     winScreen = game.add.tileSprite(0, 0, 800, 600, 'winScreen');
     winScreen.visible = false;
     loseScreen = game.add.tileSprite(0, 0, 800, 600, 'loseScreen');
     loseScreen.visible = false;
-    retryButton = game.add.button(316, 387, 'retryButton', restartGame, this, 2, 1, 0);
-    retryButton.visible = false;
+
     //sounds
     explode = game.add.audio('explode',1,false);
     eatten = game.add.audio('eatten',.5,false);
@@ -95,6 +101,10 @@ function update() {
         //check if game is over
         if (shark.health <= 0) gameOver('lose');
         else if (boat.health <= 0) gameOver('win');
+
+        //keeps player from restarting while in game
+        if (gameIsStarted || gameOver) startGameKey.onDown = null;
+        else if (gameIsStarted) retryGameKey.onDown = null;
 
     }
 }
@@ -148,9 +158,9 @@ function startGame() {
 }
 
 //hides titleScreen once start button clicked
-function startButtonClicked() {
+function startKeyPressed() {
     titleScreen.visible = false;
-    startButton.visible = false;
+    //startButton.visible = false;
     startGame();
 }
 
@@ -201,7 +211,11 @@ function gameOver(result) {
     //show corresponding screen
     if (result == 'win') winScreen.visible = true;
     else loseScreen.visible = true;
-    retryButton.visible = true;
+
+    //press "SPACE BAR" to retry game
+    Phaser.Keyboard.SPACEBAR = 32;
+    retryGameKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    retryGameKey.onDown.add(restartGame, this);
 
 }
 
@@ -209,7 +223,6 @@ function restartGame() {
     //turn off screens and set up new game
     winScreen.visible = false;
     loseScreen.visible = false;
-    retryButton.visible = false;
     startGame();
 }
 

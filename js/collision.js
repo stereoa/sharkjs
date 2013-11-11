@@ -46,7 +46,7 @@ function bombHitsBomb(bomb, bomb2) {
 function sharkHitsBoat(shark, boat) {
 
     if (!shark.isStunned) {
-        playSound(boatHit, .5);
+        playSound(boatHit);
         //shark.stun();
         //just a number to gauge how fast the shark hits the boat.
         forceOfHit = Math.abs(shark.body.velocity.x) + Math.abs(shark.body.velocity.y);
