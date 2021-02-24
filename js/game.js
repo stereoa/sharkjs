@@ -45,7 +45,6 @@ function preload() {
     game.load.audio('eatten', ['assets/audio/soundEffects/eatten.mp3', 'assets/audio/soundEffects/eatten.ogg']);
     game.load.audio('boatHit', ['assets/audio/soundEffects/boatHit.mp3', 'assets/audio/soundEffects/boatHit.ogg']);
     game.load.audio('boatExplosion', ['assets/audio/soundEffects/boatExplosion.mp3', 'assets/audio/soundEffects/boatExplosion.ogg']);
-    game.load.audio('stunnedContact', ['assets/audio/soundEffects/stunnedContact.mp3', 'assets/audio/soundEffects/stunnedContact.ogg']);
     game.load.audio('splash', ['assets/audio/soundEffects/splash.mp3', 'assets/audio/soundEffects/splash.ogg']);
 }
 
