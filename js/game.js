@@ -18,7 +18,6 @@ var shark;
 var explode;
 var boatHit;
 var boatExplosion;
-var stunnedContact;
 
 //load in game assets
 function preload() {
@@ -74,7 +73,6 @@ function create() {
     eatten = game.add.audio('eatten',.5,false);
     boatHit = game.add.audio('boatHit',1,false);
     boatExplosion = game.add.audio('boatExplosion', 1,false);
-    stunnedContact = game.add.audio('stunnedContact', 1,false);
     splash = game.add.audio('splash', 1,false);
 
     gameIsStarted = false;
